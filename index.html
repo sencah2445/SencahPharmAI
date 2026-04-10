@@ -41,6 +41,8 @@
       padding: 16px;
       background: #fafafa;
       min-height: 250px;
+      max-height: 400px;
+      overflow-y: auto;
     }
 
     .message {
@@ -103,13 +105,11 @@
 
       <div class="chat-box" id="chatBox">
         <div class="message bot">Hello 👋 I am SencahPharmAI. Ask me a pharmacy question.</div>
-        <div class="message user">What is the mechanism of action of metformin?</div>
-        <div class="message bot">Metformin mainly reduces hepatic glucose production and improves insulin sensitivity.</div>
       </div>
 
       <div class="input-area">
-        <input type="text" placeholder="Type your question here..." />
-        <button>Send</button>
+        <input type="text" id="userInput" placeholder="Type your question here..." />
+        <button onclick="sendMessage()">Send</button>
       </div>
 
       <div class="small">
@@ -117,5 +117,46 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const chatBox = document.getElementById("chatBox");
+      const userText = input.value.trim();
+
+      if (userText === "") return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user";
+      userMessage.textContent = userText;
+      chatBox.appendChild(userMessage);
+
+      let reply = "I am still in demo mode. Real AI connection will be added next.";
+
+      const lowerText = userText.toLowerCase();
+
+      if (lowerText.includes("metformin")) {
+        reply = "Metformin mainly reduces hepatic glucose production and improves insulin sensitivity.";
+      } else if (lowerText.includes("amoxicillin")) {
+        reply = "Amoxicillin is a penicillin antibiotic used to treat susceptible bacterial infections.";
+      } else if (lowerText.includes("paracetamol")) {
+        reply = "Paracetamol is commonly used for pain and fever relief.";
+      } else if (lowerText.includes("hello") || lowerText.includes("hi")) {
+        reply = "Hello 👋 Ask me anything about pharmacy studies.";
+      }
+
+      const botMessage = document.createElement("div");
+      botMessage.className = "message bot";
+      botMessage.textContent = reply;
+
+      setTimeout(() => {
+        chatBox.appendChild(botMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 500);
+
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
 </body>
 </html>
