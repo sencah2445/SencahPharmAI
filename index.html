@@ -5,115 +5,295 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SencahPharmAI</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
+      background:
+        radial-gradient(circle at top, rgba(59,130,246,0.25), transparent 30%),
+        linear-gradient(135deg, #0f172a, #111827, #1e293b);
+      color: white;
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 24px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      font-size: 1.2rem;
+    }
+
+    .badge {
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(59,130,246,0.18);
+      color: #bfdbfe;
+      border: 1px solid rgba(96,165,250,0.25);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 0;
+    }
+
+    .left {
+      padding: 40px 32px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .right {
+      padding: 32px;
+      border-left: 1px solid rgba(255,255,255,0.08);
     }
 
     h1 {
-      margin-top: 0;
-      font-size: 2rem;
+      font-size: 3rem;
+      line-height: 1.05;
+      margin: 0 0 18px;
     }
 
-    p {
-      line-height: 1.6;
+    .subtext {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #cbd5e1;
+      margin-bottom: 24px;
+    }
+
+    .highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #e2e8f0;
+      font-size: 0.92rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 14px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: white;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .chat-card {
+      background: rgba(15,23,42,0.65);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .chat-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+      color: #e2e8f0;
     }
 
     .chat-box {
-      margin-top: 24px;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 16px;
-      background: #fafafa;
-      min-height: 250px;
-      max-height: 400px;
+      height: 320px;
       overflow-y: auto;
+      padding: 8px 4px 8px 0;
+      margin-bottom: 16px;
     }
 
     .message {
-      margin-bottom: 14px;
+      max-width: 85%;
       padding: 12px 14px;
-      border-radius: 12px;
-      max-width: 80%;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+      font-size: 0.97rem;
     }
 
     .bot {
-      background: #e0ecff;
+      background: rgba(59,130,246,0.18);
+      border: 1px solid rgba(96,165,250,0.16);
+      color: #dbeafe;
     }
 
     .user {
-      background: #dcfce7;
+      background: rgba(34,197,94,0.16);
+      border: 1px solid rgba(74,222,128,0.14);
+      color: #dcfce7;
       margin-left: auto;
     }
 
     .input-area {
       display: flex;
       gap: 10px;
-      margin-top: 18px;
     }
 
     input {
       flex: 1;
-      padding: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      padding: 14px 16px;
+      border-radius: 14px;
       font-size: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    input::placeholder {
+      color: #94a3b8;
     }
 
     button {
-      padding: 14px 18px;
       border: none;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
       cursor: pointer;
+      padding: 14px 18px;
+      border-radius: 14px;
       font-size: 1rem;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
     }
 
-    button:hover {
-      background: #1d4ed8;
+    .footer-note {
+      margin-top: 14px;
+      color: #94a3b8;
+      font-size: 0.88rem;
     }
 
-    .small {
-      margin-top: 16px;
-      font-size: 0.95rem;
-      color: #6b7280;
+    @media (max-width: 860px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      .right {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>SencahPharmAI</h1>
-      <p>Your South African pharmacy study assistant.</p>
-      <p>Exam prep, clinical reasoning, drug interactions, and answers aligned with SA guidelines.</p>
-
-      <div class="chat-box" id="chatBox">
-        <div class="message bot">Hello 👋 I am SencahPharmAI. Ask me a pharmacy question.</div>
+  <div class="page">
+    <div class="app-shell">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo">💊</div>
+          <div>SencahPharmAI</div>
+        </div>
+        <div class="badge">SA Pharmacy Study Assistant</div>
       </div>
 
-      <div class="input-area">
-        <input type="text" id="userInput" placeholder="Type your question here..." />
-        <button onclick="sendMessage()">Send</button>
-      </div>
+      <div class="content">
+        <div class="left">
+          <h1>Study smarter with pharmacy-focused AI.</h1>
+          <p class="subtext">
+            Get help with pharmacology, clinical reasoning, drug interactions,
+            exam prep, and South African guideline-based learning in one clean workspace.
+          </p>
 
-      <div class="small">
-        Demo version only — AI connection coming next.
+          <div class="highlights">
+            <div class="pill">EML aligned</div>
+            <div class="pill">SAMF support</div>
+            <div class="pill">Clinical cases</div>
+            <div class="pill">Exam revision</div>
+          </div>
+
+          <div class="cta-row">
+            <a href="#chat-section" class="primary-btn">Start chatting</a>
+            <a href="#" class="secondary-btn">Explore features</a>
+          </div>
+        </div>
+
+        <div class="right" id="chat-section">
+          <div class="chat-card">
+            <div class="chat-title">AI Chat</div>
+
+            <div class="chat-box" id="chatBox">
+              <div class="message bot">Hello 👋 I’m SencahPharmAI. Ask me a pharmacy question.</div>
+            </div>
+
+            <div class="input-area">
+              <input type="text" id="userInput" placeholder="Ask about metformin, antibiotics, hypertension..." />
+              <button onclick="sendMessage()">Send</button>
+            </div>
+
+            <div class="footer-note">
+              Demo mode for now — real AI connection comes next.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -124,7 +304,7 @@
       const chatBox = document.getElementById("chatBox");
       const userText = input.value.trim();
 
-      if (userText === "") return;
+      if (!userText) return;
 
       const userMessage = document.createElement("div");
       userMessage.className = "message user";
@@ -132,13 +312,12 @@
       chatBox.appendChild(userMessage);
 
       let reply = "I am still in demo mode. Real AI connection will be added next.";
-
       const lowerText = userText.toLowerCase();
 
       if (lowerText.includes("metformin")) {
         reply = "Metformin mainly reduces hepatic glucose production and improves insulin sensitivity.";
       } else if (lowerText.includes("amoxicillin")) {
-        reply = "Amoxicillin is a penicillin antibiotic used to treat susceptible bacterial infections.";
+        reply = "Amoxicillin is a penicillin antibiotic used for susceptible bacterial infections.";
       } else if (lowerText.includes("paracetamol")) {
         reply = "Paracetamol is commonly used for pain and fever relief.";
       } else if (lowerText.includes("hello") || lowerText.includes("hi")) {
@@ -152,7 +331,7 @@
       setTimeout(() => {
         chatBox.appendChild(botMessage);
         chatBox.scrollTop = chatBox.scrollHeight;
-      }, 500);
+      }, 400);
 
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
